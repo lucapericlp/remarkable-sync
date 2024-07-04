@@ -3,10 +3,9 @@ import re
 import binascii
 import json
 import base64
-import subprocess
+from functools import lru_cache
 from mmap import PROT_READ, mmap
 from pathlib import Path
-from typing import Optional
 
 import requests
 
@@ -21,7 +20,7 @@ def strings(fname, n=6):
             yield match.group(0)
 
 
-def get_device_token() -> Optional[str]:
+def get_device_token() -> str:
     for logs in sorted(
         Path(EXTENSION_SETTINGS).glob("*.log"), key=os.path.getmtime, reverse=True
     ):
@@ -44,8 +43,10 @@ def get_device_token() -> Optional[str]:
                 signature = _logs[idx+4].decode()
                 device_token_with_signature = f"{device_token}-{signature}"
                 all_device_tokens.append(device_token_with_signature)
-        most_recent_device_token = all_device_tokens[-1]
-        return most_recent_device_token
+        if all_device_tokens:
+            most_recent_device_token = all_device_tokens[-1]
+            return most_recent_device_token
+    raise ValueError("Device token could not be found!")
 
 
 def get_user_token(device_token: str) -> str:
@@ -63,12 +64,17 @@ def get_user_token(device_token: str) -> str:
     }
 
     response = requests.post(url, headers=headers)
+    if not response.ok:
+        raise ValueError(f"Failed to get user token: {response.text}")
 
     return response.text
 
 
+@lru_cache
+def get_cached_user_token() -> str:
+    return get_user_token(get_device_token())
+
+
 if __name__ == "__main__":
     device_token = get_device_token()
-    if not device_token:
-        raise ValueError("Device token could not be found!")
     print(get_user_token(device_token))
