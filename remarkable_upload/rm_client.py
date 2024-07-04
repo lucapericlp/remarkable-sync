@@ -94,7 +94,7 @@ if __name__ == "__main__":
     rm = RemarkableCloudClient()
     get_result = rm.get()
     print(f"Found {len(get_result)} documents!")
-    _file, _content_type = Path("2401.17264v2.pdf"), "application/pdf"
+    _file, _content_type = Path("test.pdf"), "application/pdf"
     result = rm.upload(_file, _content_type)
     if result:
         print(result.status_code, result.text)

@@ -1,16 +1,22 @@
-# Remarkable Upload
+# Remarkable API Sync
 
-Super simple script after quick reverse engineering of the Chrome extension.
+Sync a directory to your Remarkable tablet using the Remarkable API.
 
 ## How it works
 
-Takes your device token stored locally in your Chrome Extension Settings. Uses
-that to generate a user token. Uses that to upload a file to the Remarkable cloud.
+It takes your device token stored locally in your Chrome Extension Settings. It then uses
+that to generate a user token which is used to:
+1. get currently present documents under a given folder
+2. upload any new documents in the local folder to the Remarkable tablet
 
 ## Usage
 
 ```bash
-python remarkable_upload/rm_post.py
+poetry run python remarkable_upload/rm_sync.py \
+    --rm-dir-name Zotero \
+    --upload-dir ~/Zotero/storage/ \
+    --target-file-ext pdf \
+    --max-upload-workers 2
 ```
 
 If it's struggling to find your device token, use `./get_device_token.sh` to

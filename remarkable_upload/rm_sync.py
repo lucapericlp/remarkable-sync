@@ -1,4 +1,5 @@
 import os
+import click
 import logging
 from concurrent.futures import ThreadPoolExecutor
 from functools import partial
@@ -76,8 +77,17 @@ class RemarkableSyncer:
             )
 
 
-if __name__ == "__main__":
+@click.command()
+@click.option("--rm-dir-name", default=None, help="Name of the folder to upload files to")
+@click.option("--upload-dir", default=DIR_TO_UPLOAD, help="Directory to upload files from")
+@click.option("--target-file-ext", default=TARGET_FILE_EXT, help="File extension to upload from your target local directory")
+@click.option("--max-upload-workers", default=MAX_RM_UPLOAD_WORKERS, help="Number of concurrent uploads to the Remarkable Cloud")
+def sync(rm_dir_name, upload_dir, target_file_ext, max_upload_workers):
     client = RemarkableCloudClient()
-    get_files = lambda: list(sorted(Path(DIR_TO_UPLOAD).rglob(f"*.{TARGET_FILE_EXT}"), key=os.path.getmtime))
+    get_files = lambda: list(sorted(Path(upload_dir).rglob(f"*.{target_file_ext}"), key=os.path.getmtime))
     syncer = RemarkableSyncer(client, get_files)
-    syncer.sync(rm_dir_name="Zotero")
+    syncer.sync(rm_dir_name=rm_dir_name)
+
+
+if __name__ == "__main__":
+    sync()
