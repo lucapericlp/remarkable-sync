@@ -6,8 +6,8 @@ Sync a directory to your Remarkable tablet using the Remarkable API.
 
 It takes your device token stored locally in your Chrome Extension Settings. It then uses
 that to generate a user token which is used to:
-1. get currently present documents under a given folder
-2. upload any new documents in the local folder to the Remarkable tablet
+1. get currently present documents under a given folder in the Remarkable Cloud
+2. upload any new documents from the local folder to the Remarkable Cloud
 
 ## Usage
 
