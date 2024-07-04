@@ -5,9 +5,22 @@ Sync a directory to your Remarkable tablet using the Remarkable API.
 ## Pre-requisites
 
 1. Installed & connected `Read on Remarkable` extension on your Chrome browser
+2. `poetry` installed (https://python-poetry.org/docs/)
+3. [Optional] `fswatch` installed for automated sync
 
 ## Usage
 
+### Automated Sync
+```bash
+chmod +x watch.sh
+./watch.sh --rm-dir-name Zotero \
+    --upload-dir ~/Zotero/storage/ \
+    --target-file-ext pdf \
+    --max-upload-workers 2 \
+    --event-accumulation-threshold 3
+```
+
+### Manual Sync
 ```bash
 poetry run python remarkable_upload/rm_sync.py \
     --rm-dir-name Zotero \
