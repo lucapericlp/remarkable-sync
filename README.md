@@ -2,12 +2,9 @@
 
 Sync a directory to your Remarkable tablet using the Remarkable API.
 
-## How it works
+## Pre-requisites
 
-It takes your device token stored locally in your Chrome Extension Settings. It then uses
-that to generate a user token which is used to:
-1. get currently present documents under a given folder in the Remarkable Cloud
-2. upload any new documents from the local folder to the Remarkable Cloud
+1. Installed & connected `Read on Remarkable` extension on your Chrome browser
 
 ## Usage
 
@@ -21,3 +18,14 @@ poetry run python remarkable_upload/rm_sync.py \
 
 If it's struggling to find your device token, use `./get_device_token.sh` to
 investigate futher.
+
+## How it works
+
+It takes your device token stored locally in your Chrome Extension Settings. It then uses
+that to generate a user token which is used to:
+1. get currently present documents under a given folder in the Remarkable Cloud
+2. upload any new documents from the local folder to the Remarkable Cloud
+
+## OS Support
+
+Currently only tested on MacOS. Device token extraction will not work on other OSs. Adding support should be straightforward, see `remarkable_upload/rm_tokens.py`.
