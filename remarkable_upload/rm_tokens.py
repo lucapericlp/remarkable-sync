@@ -40,9 +40,7 @@ def get_device_token() -> str:
                     jwt_part.decode()
                     for jwt_part in _logs[idx + 1: idx + 4]
                 ])
-                signature = _logs[idx+4].decode()
-                device_token_with_signature = f"{device_token}-{signature}"
-                all_device_tokens.append(device_token_with_signature)
+                all_device_tokens.append(device_token)
         if all_device_tokens:
             most_recent_device_token = all_device_tokens[-1]
             return most_recent_device_token
