@@ -8,4 +8,3 @@ DIR_TO_UPLOAD = os.environ["UPLOAD_DIR"]
 TARGET_FILE_EXT = "pdf"
 # be careful with this value as it can lead to rate limiting!
 MAX_RM_UPLOAD_WORKERS = int(os.environ.get("MAX_RM_UPLOAD_WORKERS", 1))
-logger.info(f"Using {MAX_RM_UPLOAD_WORKERS=} for concurrent uploads.")
